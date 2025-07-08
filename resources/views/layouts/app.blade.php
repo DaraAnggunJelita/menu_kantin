@@ -86,6 +86,10 @@
         <a href="{{ route('admin.dashboard.page', 'snack') }}" class="nav-link-custom">
             <i data-lucide="cookie"></i> Snack
         </a>
+        <a href="{{ route('admin.pemesanan.index') }}" class="nav-link-custom">
+    <i data-lucide="shopping-cart"></i> Pemesanan
+    </a>
+
 
         <form action="{{ route('logout') }}" method="POST" class="logout-btn">
             @csrf

@@ -110,7 +110,10 @@
                     <div class="menu-body text-center">
                         <h5>{{ $menu->nama_menu }}</h5>
                         <p>Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
-                        <a href="{{ route('landing.detail.makanan', $menu->id) }}" class="btn btn-outline-primary mt-2">Lihat Detail</a>
+                        <a href="{{ route('landing.detail.makanan', $menu->id) }}" class="btn btn-outline-warning mt-2">Lihat Detail</a>
+                        <a href="{{ route('landing.detail.makanan', $menu->id) }}?pesan=1" class="btn btn-warning mt-2 ms-2">
+                            <i class="fas fa-shopping-cart me-1"></i> Pesan
+                        </a>
                     </div>
                 </div>
             </div>
@@ -132,7 +135,10 @@
                     <div class="menu-body text-center">
                         <h5>{{ $item->nama_minuman }}</h5>
                         <p>Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
-                        <a href="{{ route('landing.detail.minuman', $item->id) }}" class="btn btn-outline-success mt-2">Lihat Detail</a>
+                        <a href="{{ route('landing.detail.minuman', $item->id) }}" class="btn btn-outline-warning mt-2">Lihat Detail</a>
+                        <a href="{{ route('landing.detail.minuman', $item->id) }}?pesan=1" class="btn btn-warning mt-2 ms-2">
+                            <i class="fas fa-shopping-cart me-1"></i> Pesan
+                        </a>
                     </div>
                 </div>
             </div>
@@ -155,6 +161,9 @@
                         <h5>{{ $item->nama_snack }}</h5>
                         <p>Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
                         <a href="{{ route('landing.detail.snack', $item->id) }}" class="btn btn-outline-warning mt-2">Lihat Detail</a>
+                        <a href="{{ route('landing.detail.snack', $item->id) }}?pesan=1" class="btn btn-warning mt-2 ms-2">
+                            <i class="fas fa-shopping-cart me-1"></i> Pesan
+                        </a>
                     </div>
                 </div>
             </div>

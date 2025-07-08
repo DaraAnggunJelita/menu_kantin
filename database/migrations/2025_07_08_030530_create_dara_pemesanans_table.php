@@ -17,17 +17,17 @@ return new class extends Migration
         $table->unsignedBigInteger('minuman_id')->nullable();  // minuman
         $table->unsignedBigInteger('snack_id')->nullable();    // snack
         $table->integer('jumlah')->default(1);
-        $table->unsignedBigInteger('user_id')->nullable();     // jika login
         $table->string('nama_pemesan');
         $table->string('no_hp');
-        $table->enum('status', ['pending', 'proses', 'selesai'])->default('pending');
+        $table->enum('status', ['pending', 'diproses', 'selesai', 'dibatalkan'])->default('pending');
         $table->timestamps();
 
         $table->foreign('menu_id')->references('id')->on('dara_menus')->onDelete('set null');
-        $table->foreign('minuman_id')->references('id')->on('dara_minumen')->onDelete('set null');
+        $table->foreign('minuman_id')->references('id')->on('dara_minuman')->onDelete('set null');
         $table->foreign('snack_id')->references('id')->on('dara_snacks')->onDelete('set null');
     });
 }
+
 
     /**
      * Reverse the migrations.
