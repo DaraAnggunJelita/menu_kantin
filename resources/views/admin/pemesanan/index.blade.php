@@ -45,19 +45,24 @@
                             <td>{{ $p->no_hp }}</td>
                             <td>
                                 <form action="{{ route('admin.pemesanan.update', $p->id) }}" method="POST" class="d-inline">
-    @csrf
-    @method('PUT')
-    <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
-        <option value="pending" {{ $p->status == 'pending' ? 'selected' : '' }}>Pending</option>
-        <option value="diproses" {{ $p->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
-        <option value="selesai" {{ $p->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-        <option value="dibatalkan" {{ $p->status == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-    </select>
-</form>
-
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
+                                        <option value="pending" {{ $p->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="diproses" {{ $p->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                                        <option value="selesai" {{ $p->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                        <option value="dibatalkan" {{ $p->status == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                                    </select>
+                                </form>
                             </td>
                             <td>{{ $p->created_at->format('d M Y, H:i') }}</td>
-                            <td>-</td>
+                            <td>
+                                <form action="{{ route('admin.pemesanan.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

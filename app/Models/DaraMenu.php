@@ -8,7 +8,17 @@ class DaraMenu extends Model
 {
     protected $table = 'dara_menus';
 
-    protected $fillable = ['kategori_id', 'nama_menu', 'harga', 'deskripsi', 'gambar'];
+   // App\Models\DaraPemesanan.php
+protected $fillable = [
+    'menu_id',
+    'minuman_id',
+    'snack_id',
+    'jumlah',
+    'nama_pemesan',
+    'no_hp',
+    'status',
+];
+
 
     public function kategori()
     {

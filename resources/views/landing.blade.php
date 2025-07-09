@@ -90,15 +90,19 @@
     }
 </style>
 
+{{-- Hero Section --}}
 <div class="hero">
     <h1>Selamat Datang di Kantin Kampus</h1>
     <p>Tempat terbaik untuk menikmati makanan lezat, minuman segar, dan camilan favorit!</p>
     <a href="{{ route('login') }}" class="btn btn-outline-dark btn-lg mt-3 shadow-sm">
         <i class="fas fa-sign-in-alt me-1"></i> Login Admin
     </a>
+    <a href="{{ route('cek.pesanan.form') }}" class="btn btn-outline-success btn-lg mt-3 shadow-sm ms-2">
+        <i class="fas fa-search me-1"></i> Cek Status Pesanan
+    </a>
 </div>
 
-{{-- 🍛 Makanan --}}
+{{-- 🍛 Menu Makanan --}}
 <div class="menu-section">
     <h2 class="section-title">🍛 Menu Makanan</h2>
     <div class="row">

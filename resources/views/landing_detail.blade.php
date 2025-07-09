@@ -31,12 +31,25 @@
             </div>
 
             {{-- ✅ FORM PEMESANAN --}}
-            @if(request()->get('pesan') == 1)
             <div class="card mt-4 shadow" id="form-pesan">
                 <div class="card-header bg-warning text-white text-center fw-bold">
                     Form Pemesanan
                 </div>
                 <div class="card-body">
+
+                    {{-- 🔔 Notifikasi sukses atau error --}}
+                    @if(session('success'))
+                        <div class="alert alert-success text-center">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger text-center">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('pesan.store') }}" method="POST">
                         @csrf
 
@@ -79,7 +92,6 @@
                     </form>
                 </div>
             </div>
-            @endif
 
         </div>
     </div>

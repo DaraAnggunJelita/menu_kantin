@@ -11,12 +11,13 @@ class DaraPemesanan extends Model
 
     // Field yang boleh diisi secara mass-assignment (create/update)
     protected $fillable = [
+
         'menu_id',
         'minuman_id',
         'snack_id',
+        'jumlah',
         'nama_pemesan',
         'no_hp',
-        'jumlah',
         'status',
     ];
 
