@@ -29,6 +29,10 @@ Route::get('/snack/{id}', fn($id) => view('landing_detail', ['menu' => DaraSnack
 Route::get('/pesan/menu/{id}', [PemesananController::class, 'formPesanMenu'])->name('pesan.menu.form');
 Route::post('/pesan', [PemesananController::class, 'store'])->name('pesan.store');
 Route::get('/cek-pesanan', [PemesananController::class, 'cekPesananForm'])->name('cek.pesanan.form');
+// Route update status pesanan
+Route::put('/pemesanan/{id}', [PemesananController::class, 'update'])->name('pemesanan.update');
+Route::delete('/pemesanan/{id}', [PemesananController::class, 'destroy'])->name('pemesanan.destroy');
+
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

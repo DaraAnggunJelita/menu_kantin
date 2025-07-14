@@ -27,34 +27,21 @@
         header {
             background: url("https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141349.jpg") no-repeat center;
             background-size: cover;
-            color: white;
+            color: #ffffff;
             padding: 4rem 0;
             text-align: center;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-            position: relative;
-        }
-
-        header::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        header .container {
-            position: relative;
-            z-index: 2;
+            /* 🔴 Efek gelap dihapus: tidak pakai ::after */
         }
 
         header h1 {
             font-weight: 700;
             font-size: 3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* sedikit bayangan agar tetap terbaca */
         }
 
         header p {
             font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         main.container {

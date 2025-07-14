@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container py-4">
-    <h4 class="mb-4 fw-bold text-success">📦 Data Pemesanan</h4>
+    <h4 class="mb-4 fw-bold text-warning">📦 Data Pemesanan</h4>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -12,8 +12,8 @@
 
     @if ($pemesanans->count())
         <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-success">
+            <table class="table table-bordered align-middle shadow-sm">
+                <thead style="background-color: #ffe0b2;" class="text-dark text-center">
                     <tr>
                         <th>No</th>
                         <th>Item</th>
@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     @foreach ($pemesanans as $p)
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if($p->menu)
@@ -47,7 +47,7 @@
                                 <form action="{{ route('admin.pemesanan.update', $p->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('PUT')
-                                    <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
+                                    <select name="status" onchange="this.form.submit()" class="form-select form-select-sm border-warning text-center fw-semibold">
                                         <option value="pending" {{ $p->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="diproses" {{ $p->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
                                         <option value="selesai" {{ $p->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
@@ -60,7 +60,9 @@
                                 <form action="{{ route('admin.pemesanan.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                    <button class="btn btn-sm btn-outline-warning fw-semibold text-dark">
+                                        <i class="fas fa-trash-alt me-1"></i> Hapus
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -69,7 +71,7 @@
             </table>
         </div>
     @else
-        <div class="alert alert-info">Belum ada data pemesanan.</div>
+        <div class="alert alert-info text-center">Belum ada data pemesanan.</div>
     @endif
 </div>
 @endsection
