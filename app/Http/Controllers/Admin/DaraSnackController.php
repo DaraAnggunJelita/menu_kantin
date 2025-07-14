@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DaraSnack;
+use App\Models\DaraKategori;
 use Illuminate\Support\Facades\Storage;
 
 class DaraSnackController extends Controller
 {
     public function index()
     {
-        $snacks = DaraSnack::all();
-        return view('admin.snack.index', compact('snacks'));
+        $snacks = DaraSnack::with('kategori')->get();
+        $kategoris = DaraKategori::all();
+        return view('admin.snack.index', compact('snacks', 'kategoris'));
     }
 
     public function create()
     {
-        return view('admin.snack.create');
+        $kategoris = DaraKategori::all();
+        return view('admin.snack.create', compact('kategoris'));
     }
 
     public function store(Request $request)
@@ -25,10 +28,11 @@ class DaraSnackController extends Controller
         $request->validate([
             'nama_snack' => 'required|string|max:100',
             'harga' => 'required|numeric',
+            'kategori_id' => 'required|exists:dara_kategoris,id',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['nama_snack', 'harga']);
+        $data = $request->only(['nama_snack', 'harga', 'kategori_id', 'deskripsi']);
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('snack', 'public');
@@ -42,7 +46,8 @@ class DaraSnackController extends Controller
     public function edit($id)
     {
         $snack = DaraSnack::findOrFail($id);
-        return view('admin.snack.edit', compact('snack'));
+        $kategoris = DaraKategori::all();
+        return view('admin.snack.edit', compact('snack', 'kategoris'));
     }
 
     public function update(Request $request, $id)
@@ -52,17 +57,16 @@ class DaraSnackController extends Controller
         $request->validate([
             'nama_snack' => 'required|string|max:100',
             'harga' => 'required|numeric',
+            'kategori_id' => 'required|exists:dara_kategoris,id',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['nama_snack', 'harga']);
+        $data = $request->only(['nama_snack', 'harga', 'kategori_id', 'deskripsi']);
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($snack->gambar && Storage::disk('public')->exists($snack->gambar)) {
                 Storage::disk('public')->delete($snack->gambar);
             }
-            // Simpan gambar baru
             $data['gambar'] = $request->file('gambar')->store('snack', 'public');
         }
 
@@ -75,7 +79,6 @@ class DaraSnackController extends Controller
     {
         $snack = DaraSnack::findOrFail($id);
 
-        // Hapus gambar jika ada
         if ($snack->gambar && Storage::disk('public')->exists($snack->gambar)) {
             Storage::disk('public')->delete($snack->gambar);
         }
@@ -84,10 +87,10 @@ class DaraSnackController extends Controller
 
         return redirect()->route('admin.dashboard.page', 'snack')->with('success', 'Snack berhasil dihapus.');
     }
-    public function show($id)
-{
-    $snack = DaraSnack::findOrFail($id);
-    return view('admin.snack.show', compact('snack'));
-}
 
+    public function show($id)
+    {
+        $snack = DaraSnack::with('kategori')->findOrFail($id);
+        return view('admin.snack.show', compact('snack'));
+    }
 }

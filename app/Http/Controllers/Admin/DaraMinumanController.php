@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DaraMinuman;
+use App\Models\DaraKategori;
 use Illuminate\Support\Facades\Storage;
 
 class DaraMinumanController extends Controller
@@ -12,27 +13,29 @@ class DaraMinumanController extends Controller
     // Tampilkan semua minuman
     public function index()
     {
-        $minumans = DaraMinuman::all();
+        $minumans = DaraMinuman::with('kategori')->get();
         return view('admin.minuman.index', compact('minumans'));
     }
 
-    // Form tambah
+    // Form tambah minuman
     public function create()
     {
-        return view('admin.minuman.create');
+        $kategoris = DaraKategori::all();
+        return view('admin.minuman.create', compact('kategoris'));
     }
 
     // Simpan data minuman baru
     public function store(Request $request)
     {
         $request->validate([
-            'nama_minuman' => 'required|string|max:100',
-            'harga' => 'required|numeric',
-            'deskripsi' => 'nullable|string',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_minuman'   => 'required|string|max:100',
+            'harga'          => 'required|numeric',
+            'deskripsi'      => 'nullable|string',
+            'kategori_id'    => 'required|exists:dara_kategoris,id',
+            'gambar'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['nama_minuman', 'harga', 'deskripsi']);
+        $data = $request->only(['nama_minuman', 'harga', 'deskripsi', 'kategori_id']);
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('minuman', 'public');
@@ -43,11 +46,12 @@ class DaraMinumanController extends Controller
         return redirect()->route('admin.dashboard.page', 'minuman')->with('success', 'Minuman berhasil ditambahkan.');
     }
 
-    // Tampilkan halaman edit
+    // Form edit minuman
     public function edit($id)
     {
         $minuman = DaraMinuman::findOrFail($id);
-        return view('admin.minuman.edit', compact('minuman'));
+        $kategoris = DaraKategori::all();
+        return view('admin.minuman.edit', compact('minuman', 'kategoris'));
     }
 
     // Update data minuman
@@ -56,13 +60,14 @@ class DaraMinumanController extends Controller
         $minuman = DaraMinuman::findOrFail($id);
 
         $request->validate([
-            'nama_minuman' => 'required|string|max:100',
-            'harga' => 'required|numeric',
-            'deskripsi' => 'nullable|string',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_minuman'   => 'required|string|max:100',
+            'harga'          => 'required|numeric',
+            'deskripsi'      => 'nullable|string',
+            'kategori_id'    => 'required|exists:dara_kategoris,id',
+            'gambar'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['nama_minuman', 'harga', 'deskripsi']);
+        $data = $request->only(['nama_minuman', 'harga', 'deskripsi', 'kategori_id']);
 
         if ($request->hasFile('gambar')) {
             if ($minuman->gambar && Storage::disk('public')->exists($minuman->gambar)) {
@@ -76,7 +81,7 @@ class DaraMinumanController extends Controller
         return redirect()->route('admin.dashboard.page', 'minuman')->with('success', 'Minuman berhasil diperbarui.');
     }
 
-    // Hapus data minuman
+    // Hapus minuman
     public function destroy($id)
     {
         $minuman = DaraMinuman::findOrFail($id);
@@ -90,10 +95,10 @@ class DaraMinumanController extends Controller
         return redirect()->route('admin.dashboard.page', 'minuman')->with('success', 'Minuman berhasil dihapus.');
     }
 
-    // ✅ Tampilkan detail minuman
+    // Detail minuman
     public function show($id)
     {
-        $minuman = DaraMinuman::findOrFail($id);
+        $minuman = DaraMinuman::with('kategori')->findOrFail($id);
         return view('admin.minuman.show', compact('minuman'));
     }
 }

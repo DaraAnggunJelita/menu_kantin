@@ -28,6 +28,22 @@
                     <textarea name="deskripsi" class="form-control">{{ $minuman->deskripsi }}</textarea>
                 </div>
 
+                {{-- ✅ Tambahkan Kategori --}}
+                <div class="mb-3">
+                    <label for="kategori_id" class="form-label">Kategori</label>
+                    <select name="kategori_id" id="kategori_id" class="form-control @error('kategori_id') is-invalid @enderror" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($kategoris as $k)
+                            <option value="{{ $k->id }}" {{ $minuman->kategori_id == $k->id ? 'selected' : '' }}>
+                                {{ $k->nama_kategori }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('kategori_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="mb-3">
                     <label for="gambar" class="form-label">Gambar</label>
                     @if ($minuman->gambar)
